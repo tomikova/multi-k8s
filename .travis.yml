@@ -1,0 +1,42 @@
+sudo: required
+services:
+  # use docker
+  - docker
+env:
+  global:
+    # get latest git commit sha value for image tagging
+    - SHA=$(git rev-parse HEAD)
+    # for gcloud to not display prompts requiring user input 
+    - CLOUDSDK_CORE_DISABLE_PROMPTS=1
+before_install: 
+  # decrypt gcloud service-account.json.enc file
+  - openssl aes-256-cbc -K $encrypted_9f3b5599b056_key -iv $encrypted_9f3b5599b056_iv -in service-account.json.enc -out service-account.json -d
+  # install gcloud sdk
+  - curl https://sdk.cloud.google.com | bash > /dev/null;
+  # additional gcloud setup
+  - source $HOME/google-cloud-sdk/path.bash.inc
+  # install/update kubectl
+  - gcloud components update kubectl
+  # activate service account with auth data in decrypted service-account.json
+  - gcloud auth activate-service-account --key-file service-account.json
+  # target project on gcloud
+  - gcloud config set project multi-cluster-375900
+  # zone where project is running on gcloud
+  - gcloud config set compute/zone europe-west4-c
+  # set cluster where project is running
+  - gcloud container clusters get-credentials multi-cluster
+  # build image for testing
+  - docker build -t xxmadmanxx/react-test -f ./client/Dockerfile.dev ./client
+  # log in to the docker CLI for deploy step
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+script:
+  # run tests in test container
+  - docker run -e CI=true xxmadmanxx/react-test npm test
+
+deploy:
+  # use custom script for gcloud deployment as there is no preset for it
+  provider: script
+  script: bash ./deploy.sh
+  on:
+    branch: master

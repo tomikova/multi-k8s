@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: madworks-me-tls
+spec:
+  secretName: madworks-me
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: madworks.me
+  dnsNames:
+    - madworks.me
+    - www.madworks.me

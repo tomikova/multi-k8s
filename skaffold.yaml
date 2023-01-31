@@ -36,4 +36,8 @@ build:
         manual:
           - src: "*.js"
             dest: .
+    - image: xxmadmanxx/multi-randgen
+      context: randgen
+      docker:
+        dockerfile: Dockerfile.dev
 

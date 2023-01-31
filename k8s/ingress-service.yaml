@@ -32,6 +32,13 @@ spec:
                 name: server-cluster-ip-service
                 port:
                   number: 5000
+          - path: /random/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: randgen-cluster-ip-service
+                port:
+                  number: 7080
     - host: www.madworks.me
       http:
         paths:
@@ -49,3 +56,10 @@ spec:
                 name: server-cluster-ip-service
                 port:
                   number: 5000
+          - path: /random/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: randgen-cluster-ip-service
+                port:
+                  number: 7080

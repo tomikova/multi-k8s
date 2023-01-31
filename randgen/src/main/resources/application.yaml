@@ -1,0 +1,5 @@
+server:
+  port: 7080
+
+app:
+  prefix: ${PREFIX:no-prefix}

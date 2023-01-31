@@ -5,12 +5,14 @@ class Fib extends Component {
     state = {
         seenIndexes: [],
         values: {},
-        index: ''
+        index: '',
+        random: ''
     };
 
     componentDidMount() {
         this.fetchValues();
         this.fetchIndexes();
+        this.fetchRandom();
     }
 
     async fetchValues() {
@@ -21,6 +23,11 @@ class Fib extends Component {
     async fetchIndexes() {
         const seenIndexes = await axios.get('/api/values/all');
         this.setState({ seenIndexes: seenIndexes.data });
+    }
+
+    async fetchRandom() {
+        const newRandom = await axios.get('/random/getRandom');
+        this.setState({ random: newRandom.data });
     }
 
     renderSeenIndexes() {
@@ -65,6 +72,9 @@ class Fib extends Component {
 
                 <h3>Calculated values:</h3>
                 {this.renderValues()}
+
+                <h3>Current random:</h3>
+                {this.state.random}
             </div>
         );
     }

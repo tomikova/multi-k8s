@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: randgen-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: randgen
+  template:
+    metadata:
+      labels:
+        component: randgen
+    spec:
+      containers:
+        - name: randgen
+          image: xxmadmanxx/multi-randgen
+          ports:
+            - containerPort: 7080
+          env:
+            - name: PREFIX
+              value: madworks
+

@@ -1,7 +1,7 @@
+docker build -t xxmadmanxx/multi-randgen:latest -t xxmadmanxx/multi-randgen:$SHA ./randgen
 docker build -t xxmadmanxx/multi-client:latest -t xxmadmanxx/multi-client:$SHA ./client
 docker build -t xxmadmanxx/multi-server:latest -t xxmadmanxx/multi-server:$SHA ./server
 docker build -t xxmadmanxx/multi-worker:latest -t xxmadmanxx/multi-worker:$SHA ./worker
-docker build -t xxmadmanxx/multi-randgen:latest -t xxmadmanxx/multi-randgen:$SHA ./randgen
 
 docker push xxmadmanxx/multi-client:latest
 docker push xxmadmanxx/multi-server:latest
